@@ -5,8 +5,12 @@
 class world_t
 {
 public:
-    void render_map();
+    world_t(config_pointer config);
+    world_t();
 
+    void render_map();
+    void create_map();
 private:
+    config_pointer config_;
     map_t map_;
 };

@@ -8,10 +8,17 @@
 class map_t
 {
 public:
-    std::vector<environment_t> main_map_;
-    std::vector<cell_t> cell_map_;
+    map_t(config_pointer config);
+    map_t();
 
     void generate_map_f();
-    void generate_cells_f();
+
     void calculate_cells_f();
+
+private:
+    void generate_cells_f();
+
+    config_pointer config_;
+    env_container main_map_;
+    cell_container cell_map_;
 };

@@ -4,6 +4,5 @@
 
 class environment_t : public render_object_t
 {
-    public:
-
+public:
 };
