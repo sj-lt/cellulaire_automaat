@@ -6,9 +6,9 @@
 class render_object_t
 {
 public:
-    void draw(SDL_Renderer *renderer);
+    virtual void draw(SDL_Renderer *renderer);
     cords_t cordinates_;
     size_t size_;
+    std::shared_ptr<config_t> config_;
     //SOME IMG OR COLOR ???????????
 };
-
