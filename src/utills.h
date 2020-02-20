@@ -1,15 +1,10 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 
 #include "../third_party/json.hpp"
-#include "cell.h"
-#include "environment.h"
 
-typedef std::map<int, color_t> state_map_container;
-typedef std::vector<cell_t> cell_container;
-typedef std::vector<environment_t> env_container;
-typedef std::shared_ptr<config_t> config_pointer;
 
 struct cords_t
 {
@@ -22,17 +17,19 @@ struct color_t
     int r, g, b, a;
 };
 
-struct config_t
+class config_t
 {
 public:
     int cell_size_, map_size_;
-    state_map_container state_map;
+    std::map<int, color_t> state_map;
+    std::map<int, color_t> env_map;
 };
+
 
 class utills
 {
 public:
-    std::shared_ptr<config_t> load_config_f();
+    std::shared_ptr<config_t> static load_config_f(std::string path){};
 
 private:
     bool verify_config_f(nlohmann::json config);

@@ -8,7 +8,7 @@
 class map_t
 {
 public:
-    map_t(config_pointer config);
+    map_t(std::shared_ptr<config_t> config);
     map_t();
 
     void generate_map_f();
@@ -18,7 +18,7 @@ public:
 private:
     void generate_cells_f();
 
-    config_pointer config_;
-    env_container main_map_;
-    cell_container cell_map_;
+    std::shared_ptr<config_t> config_;
+    std::vector<environment_t> main_map_;
+    std::vector<cell_t> cell_map_;
 };

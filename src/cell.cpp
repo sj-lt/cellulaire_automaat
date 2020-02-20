@@ -1,7 +1,7 @@
 
 #include "cell.h"
 
-void cell_t::draw(SDL_Renderer *renderer)
+void cell_t::draw_f(SDL_Renderer *renderer)
 {
     SDL_Rect rect = {((cordinates_.x_) * (config_->cell_size_)),
                      ((cordinates_.y_) * (config_->cell_size_)),
@@ -14,4 +14,7 @@ void cell_t::draw(SDL_Renderer *renderer)
                            config_->state_map.at(state_).a);
 
     SDL_RenderFillRect(renderer, &rect);
+};
+void cell_t::calculate_cell_f(const std::vector<cell_t>& cell_map_){
+    //TODO
 };

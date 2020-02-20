@@ -6,13 +6,11 @@
 class render_object_t
 {
 public:
-    render_object_t(config_pointer config)
-    {
-        config_ = config;
-    }
-    virtual void draw(SDL_Renderer *renderer);
+    render_object_t(std::shared_ptr<config_t> config);
+
+    virtual void draw_f(SDL_Renderer *renderer){};
     cords_t cordinates_;
     // size_t size_;
-    config_pointer config_;
+    std::shared_ptr<config_t> config_;
     //SOME IMG OR COLOR ???????????
 };

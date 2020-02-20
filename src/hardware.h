@@ -5,6 +5,8 @@
 #include <SDL2/SDL.h>
 #include "utills.h"
 
+
+
 #define errcheck(e)                                                            \
   {                                                                            \
     if (e)                                                                     \
@@ -14,7 +16,9 @@
 
 class hardware_objects_t
 {
+
 public:
+
   SDL_Renderer *renderer;
   SDL_Window *window;
 
