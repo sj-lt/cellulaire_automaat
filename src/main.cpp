@@ -24,8 +24,13 @@ int main(int argc, char **argv)
     }
     else
     {
-        return 1; // try to load default config 
+        return -1; // try to load default config 
     }
+    if(config == nullptr)
+    {
+        return -1;
+    }
+    printf("config: %d  %d %d %d",config->height_,config->width_,config->cell_size_,config->map_size_);
 
     game_t game(config);
     game.init_game_f();

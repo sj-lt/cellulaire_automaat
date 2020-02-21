@@ -8,10 +8,10 @@ void cell_t::draw_f(SDL_Renderer *renderer)
                      config_->cell_size_, config_->cell_size_};
 
     SDL_SetRenderDrawColor(renderer,
-                           config_->state_map.at(state_).r,
-                           config_->state_map.at(state_).g,
-                           config_->state_map.at(state_).b,
-                           config_->state_map.at(state_).a);
+                           config_->state_map_.at(state_).r_,
+                           config_->state_map_.at(state_).g_,
+                           config_->state_map_.at(state_).b_,
+                           config_->state_map_.at(state_).a_);
 
     SDL_RenderFillRect(renderer, &rect);
 };

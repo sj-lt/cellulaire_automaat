@@ -1,3 +1,19 @@
 #include "utills.h"
+color_t::color_t(int r, int g, int b, int a)
+{
+    r_ = r;
+    g_ = g;
+    b_ = b;
+    a_ = a;
+};
+color_t::color_t(){
 
-bool utills::verify_config_f(nlohmann::json config){};
+};
+cords_t::cords_t(int x, int y)
+{
+    x_ = x;
+    y_ = y;
+};
+cords_t::cords_t(){
+
+};

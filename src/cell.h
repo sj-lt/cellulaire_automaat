@@ -11,5 +11,5 @@ public:
     void draw_f(SDL_Renderer * renderer);
     cell_t(std::shared_ptr<config_t> config) : render_object_t(config){};
 private:
-    int state_;
+    int state_=0;
 };

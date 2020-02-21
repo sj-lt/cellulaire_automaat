@@ -9,7 +9,7 @@ std::shared_ptr<hardware_objects_t> hardware_objects_t::init_hardware_subsystems
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
     auto window = SDL_CreateWindow(
-            "Textures example", SDL_WINDOWPOS_UNDEFINED,
+            "\\_cellulaire_automaat_/", SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED, width, height,
             SDL_WINDOW_SHOWN | (fscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
 
@@ -28,6 +28,6 @@ std::shared_ptr<hardware_objects_t> hardware_objects_t::init_hardware_subsystems
         SDL_DestroyRenderer(o->renderer);
         SDL_DestroyWindow(o->window);
         SDL_Quit();
-        delete o;
+        //delete o; produced munmap_chunk(): invalid pointer
     });
 }

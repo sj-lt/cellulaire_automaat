@@ -10,5 +10,5 @@ public:
 
     void draw_f(SDL_Renderer * renderer);
     environment_t(std::shared_ptr<config_t> config) : render_object_t(config){};
-    int type_;
+    int type_=0;
 };

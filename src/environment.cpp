@@ -6,10 +6,10 @@ void environment_t::draw_f(SDL_Renderer *renderer)
                      config_->cell_size_, config_->cell_size_};
 
     SDL_SetRenderDrawColor(renderer,
-                           config_->env_map.at(type_).r,
-                           config_->env_map.at(type_).g,
-                           config_->env_map.at(type_).b,
-                           config_->env_map.at(type_).a);
+                           config_->env_map_.at(type_).r_,
+                           config_->env_map_.at(type_).g_,
+                           config_->env_map_.at(type_).b_,
+                           config_->env_map_.at(type_).a_);
 
     SDL_RenderFillRect(renderer, &rect);
 };

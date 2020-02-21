@@ -3,6 +3,8 @@
 #include "world.h"
 #include "hardware.h"
 
+enum event_enum { NONE=0, QUIT=1  };
+
 class game_t
 {
 public:
