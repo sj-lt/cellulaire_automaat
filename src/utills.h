@@ -60,10 +60,10 @@ public:
             for (unsigned i = 0; i < config_json.at("env_map").size(); i++)
             {
                 config->env_map_.emplace(i, color_t(
-                                                config_json["state_map"].at(i)["r"],
-                                                config_json["state_map"].at(i)["g"],
-                                                config_json["state_map"].at(i)["b"],
-                                                config_json["state_map"].at(i)["a"]));
+                                                config_json["env_map"].at(i)["r"],
+                                                config_json["env_map"].at(i)["g"],
+                                                config_json["env_map"].at(i)["b"],
+                                                config_json["env_map"].at(i)["a"]));
             }
 
             return std::shared_ptr<config_t>(config);

@@ -1,18 +1,14 @@
 #include "game.h"
 /*
 *TODO:
-*- Create main create_game_f();
-*- Create default config + some menu to edit configs
+*- some menu to edit configs
+*-  CELL:
+*-      calculate cell 
 *-  GAME:
-*-      void create_world_f();
-*-      
-*-  WORLD:
-*-      void render_map();
-*-      void create_map();
+*-      interupts function / input proccesing 
 *-  MAP:
-*-      void generate_map_f();
 *-      void calculate_cells_f();
-*-      void generate_cells_f();
+*-      make map as sharedptr as in hardware!!!!!!!!!!!!
 */
 int main(int argc, char **argv)
 {
@@ -30,7 +26,6 @@ int main(int argc, char **argv)
     {
         return -1;
     }
-    printf("config: %d  %d %d %d",config->height_,config->width_,config->cell_size_,config->map_size_);
 
     game_t game(config);
     game.init_game_f();

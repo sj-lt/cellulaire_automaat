@@ -43,17 +43,8 @@ void game_t::start_game_f()
         {
             game_active = false;
         }
-        // std::cout<<evnt<<std::endl;
-        std::cout << "start clean buffor" << std::endl;
-
-        SDL_RenderClear(hardware_->renderer); // czyszczenie backbufora
-        std::cout << "start render map" << std::endl;
 
         world_.render_map_f(hardware_->renderer);
-
-        std::cout << "start print buffor" << std::endl;
-
-        SDL_RenderPresent(hardware_->renderer); // wyswietlenie backbufora
 
         frameTime = SDL_GetTicks() - frameStart;
 

@@ -14,7 +14,6 @@ void map_t::print_config_f()
 void map_t::generate_map_f()
 {
     std::cout << "start generate map" << std::endl;
-    printf("config: %d  %d %d %d",config_->height_,config_->width_,config_->cell_size_,config_->map_size_);
 
     generate_env_f();
     generate_cells_f();
@@ -22,6 +21,13 @@ void map_t::generate_map_f()
     std::cout << "finish generate map" << std::endl;
     // return std::shared_ptr<map_t>(this);
 };
+
+void map_t::render_map_f(SDL_Renderer *renderer)
+{
+    render_env_f(renderer);
+    render_cells_f(renderer);
+};
+
 void map_t::generate_cells_f()
 {
     //maybe return pointer
@@ -33,13 +39,14 @@ void map_t::generate_cells_f()
     {
         for (unsigned int y = 0; y < cells_height_n; y++)
         {
-            cell_map_.emplace(cords_t(x, y), cell_t(config_));
+            cords_t cords(x,y);
+            cell_map_.emplace(cords, cell_t(config_,cords));
         }
     }
 };
+
 void map_t::generate_env_f()
 {
-    //maybe return pointer
     //maybe return pointer
     std::cout << "start generate env" << std::endl;
 
@@ -50,25 +57,19 @@ void map_t::generate_env_f()
     {
         for (unsigned int y = 0; y < cells_height_n; y++)
         {
-            env_map_.emplace(cords_t(x, y), environment_t(config_));
+            cords_t cords(x,y);
+            env_map_.emplace(cords, environment_t(config_,cords));
         }
     }
 };
 
-void map_t::render_map_f(SDL_Renderer *renderer)
-{
-    std::cout << "start render map in map_t" << std::endl;
-    render_env_f(renderer);
-    render_cells_f(renderer);
-    std::cout << "finish render map in map_t" << std::endl;
-};
+
 void map_t::render_cells_f(SDL_Renderer *renderer)
 {
     //maybe return pointer
     unsigned int cells_width_n = (config_->width_ / config_->cell_size_); //calculate in config??
-    printf("config: %d  %d %d %d",config_->height_,config_->width_,config_->cell_size_,config_->map_size_);
-
     unsigned int cells_height_n = (config_->height_ / config_->cell_size_);
+
     for (unsigned int x = 0; x < cells_width_n; x++)
     {
         for (unsigned int y = 0; y < cells_height_n; y++)
@@ -77,11 +78,10 @@ void map_t::render_cells_f(SDL_Renderer *renderer)
         }
     }
 };
+
 void map_t::render_env_f(SDL_Renderer *renderer)
 {
     //maybe return pointer
-
-
     unsigned int cells_width_n = (config_->width_ / config_->cell_size_);
     unsigned int cells_height_n = (config_->height_ / config_->cell_size_);
 

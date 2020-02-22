@@ -6,7 +6,7 @@
 class render_object_t
 {
 public:
-    render_object_t(std::shared_ptr<config_t> config);
+    render_object_t(std::shared_ptr<config_t> config, cords_t cordinates);
 
     virtual void draw_f(SDL_Renderer *renderer){};
     cords_t cordinates_;

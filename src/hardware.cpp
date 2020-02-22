@@ -19,8 +19,9 @@ std::shared_ptr<hardware_objects_t> hardware_objects_t::init_hardware_subsystems
             window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
     errcheck(renderer == nullptr);
+    SDL_SetRenderDrawBlendMode(renderer,  SDL_BLENDMODE_BLEND); // SETS OPACITY OPTION
 
-    hardware_objects_t *objects = this  ;// new hardware_objects_t; //POSIBLE ERRORS NEEDS CHECK
+    hardware_objects_t *objects = new hardware_objects_t;
     objects->renderer = renderer;
     objects->window = window;
 
@@ -28,6 +29,5 @@ std::shared_ptr<hardware_objects_t> hardware_objects_t::init_hardware_subsystems
         SDL_DestroyRenderer(o->renderer);
         SDL_DestroyWindow(o->window);
         SDL_Quit();
-        //delete o; produced munmap_chunk(): invalid pointer
     });
 }

@@ -7,8 +7,7 @@ class environment_t : public render_object_t
 {
 
 public:
-
-    void draw_f(SDL_Renderer * renderer);
-    environment_t(std::shared_ptr<config_t> config) : render_object_t(config){};
-    int type_=0;
+    void draw_f(SDL_Renderer *renderer);
+    environment_t(std::shared_ptr<config_t> config, cords_t cordinates) : render_object_t(config, cordinates){};
+    int type_ = 1;
 };
