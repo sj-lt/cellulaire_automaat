@@ -19,7 +19,7 @@ std::shared_ptr<hardware_objects_t> hardware_objects_t::init_hardware_subsystems
             window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
     errcheck(renderer == nullptr);
-    SDL_SetRenderDrawBlendMode(renderer,  SDL_BLENDMODE_BLEND); // SETS OPACITY OPTION
+    SDL_SetRenderDrawBlendMode(renderer,  SDL_BLENDMODE_BLEND); //
 
     hardware_objects_t *objects = new hardware_objects_t;
     objects->renderer = renderer;

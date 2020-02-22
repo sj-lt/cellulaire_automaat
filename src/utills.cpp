@@ -14,6 +14,11 @@ cords_t::cords_t(int x, int y)
     x_ = x;
     y_ = y;
 };
+cords_t::cords_t(cords_t cords,int x_add, int y_add)
+{
+    x_ = cords.x_+x_add;
+    y_ = cords.y_+y_add;
+};
 cords_t::cords_t(){
 
 };

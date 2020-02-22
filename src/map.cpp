@@ -11,13 +11,13 @@ void map_t::print_config_f()
     printf("config: %d  %d %d %d", config_->height_, config_->width_, config_->cell_size_, config_->map_size_);
 };
 
-std::shared_ptr<map_t> map_t::generate_map_f()
+std::unique_ptr<map_t> map_t::generate_map_f()
 {
     map_t *map = new map_t(config_);
     map->cell_map_ = generate_cells_f();
-    map->env_map_ =  generate_env_f();
+    map->env_map_ = generate_env_f();
 
-   return std::shared_ptr<map_t>(map);
+    return std::unique_ptr<map_t>(map);
 };
 
 void map_t::render_map_f(SDL_Renderer *renderer)
@@ -26,10 +26,10 @@ void map_t::render_map_f(SDL_Renderer *renderer)
     render_cells_f(renderer);
 };
 
-std::shared_ptr<std::map<cords_t,cell_t>> map_t::generate_cells_f()
+std::unique_ptr<std::map<cords_t, cell_t>> map_t::generate_cells_f()
 {
     std::cout << "start generate cells" << std::endl;
-    std::map<cords_t,cell_t> *cell_map = new std::map<cords_t,cell_t>();
+    std::map<cords_t, cell_t> *cell_map = new std::map<cords_t, cell_t>();
     unsigned int cells_width_n = (config_->width_ / config_->cell_size_);
     unsigned int cells_height_n = (config_->height_ / config_->cell_size_);
     for (unsigned int x = 0; x < cells_width_n; x++)
@@ -41,14 +41,14 @@ std::shared_ptr<std::map<cords_t,cell_t>> map_t::generate_cells_f()
         }
     }
 
-   return std::shared_ptr<std::map<cords_t,cell_t>>(cell_map);
+    return std::unique_ptr<std::map<cords_t, cell_t>>(cell_map);
 };
 
-std::shared_ptr<std::map<cords_t,environment_t>> map_t::generate_env_f()
+std::unique_ptr<std::map<cords_t, environment_t>> map_t::generate_env_f()
 {
     //maybe return pointer
     std::cout << "start generate env" << std::endl;
-    std::map<cords_t,environment_t> *env_map = new std::map<cords_t,environment_t>();
+    std::map<cords_t, environment_t> *env_map = new std::map<cords_t, environment_t>();
 
     unsigned int cells_width_n = (config_->width_ / config_->cell_size_);
     unsigned int cells_height_n = (config_->height_ / config_->cell_size_);
@@ -57,10 +57,19 @@ std::shared_ptr<std::map<cords_t,environment_t>> map_t::generate_env_f()
         for (unsigned int y = 0; y < cells_height_n; y++)
         {
             cords_t cords(x, y);
-            env_map->emplace(cords, environment_t(config_, cords));
+            environment_t env(config_, cords);
+            if(x%5 == 0)
+            {
+                env.state_ = 1; //FIRE
+            }
+            else
+            {
+                env.state_ = 0; //WATER
+            }
+            env_map->emplace(cords, env);
         }
     }
-   return std::shared_ptr<std::map<cords_t,environment_t>>(env_map);
+    return std::unique_ptr<std::map<cords_t, environment_t>>(env_map);
 };
 
 void map_t::render_cells_f(SDL_Renderer *renderer)
@@ -93,7 +102,18 @@ void map_t::render_env_f(SDL_Renderer *renderer)
     }
 };
 
-void map_t::calculate_cells_f(){};
+void map_t::calculate_cells_f()
+{
+    unsigned int cells_width_n = (config_->width_ / config_->cell_size_);
+    unsigned int cells_height_n = (config_->height_ / config_->cell_size_);
+    for (unsigned int x = 0; x < cells_width_n; x++)
+    {
+        for (unsigned int y = 0; y < cells_height_n; y++)
+        {
+            cell_map_->at(cords_t(x, y)).calculate_cell_f(this);
+        }
+    }
+};
 
 inline bool operator<(const cords_t &l, const cords_t &r)
 {

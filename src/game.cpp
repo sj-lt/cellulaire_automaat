@@ -25,6 +25,7 @@ void game_t::start_game_f()
     int frameTime;
     const int FPS = 15;
     const int frameDelay = 1000 / FPS;
+    long int time = 0;
     for (bool game_active = true; game_active;)
     {
         frameStart = SDL_GetTicks();
@@ -44,6 +45,7 @@ void game_t::start_game_f()
             game_active = false;
         }
 
+        world_.calculate_cells_f();
         world_.render_map_f(hardware_->renderer);
 
         frameTime = SDL_GetTicks() - frameStart;

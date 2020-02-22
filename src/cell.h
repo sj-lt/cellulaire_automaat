@@ -1,15 +1,24 @@
 #pragma once
 
 #include "render_object.h"
+#include "map.h"
+
+class map_t; //FORWARD DECLARATION
 
 class cell_t : public render_object_t
 {
 
 public:
-    void calculate_cell_f(const std::vector<cell_t> &cell_map_);
+    void calculate_cell_f(const map_t *map);
     void draw_f(SDL_Renderer *renderer);
-    cell_t(std::shared_ptr<config_t> config, cords_t cordinates) : render_object_t(config, cordinates){};
+    void next_day_f();
 
+    cell_t(std::shared_ptr<config_t> config, cords_t cordinates);
 private:
+    int count_neighbours_f(const map_t *map, int state_to_count,std::vector<std::pair<int,int>> moves);
+    std::vector<std::pair<int,int>> pick_possible_moves_f(const map_t *map);
+
     int state_ = 0;
+    int next_state_ = 0;
+    const std::array<std::pair<int,int>,4> moves_ = {std::make_pair(1,0),{0,1},{-1,0},{0,-1}}; 
 };

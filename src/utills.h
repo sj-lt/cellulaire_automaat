@@ -10,6 +10,7 @@ struct cords_t
 {
 public:
     cords_t(int x, int y);
+    cords_t(cords_t cords,int x_add, int y_add);
     cords_t();
     int x_, y_;
 };
