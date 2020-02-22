@@ -12,6 +12,5 @@ public:
     void create_map_f();
 private:
     std::shared_ptr<config_t> config_;
-    // std::shared_ptr<map_t> map_;
-    map_t map_;
+    std::shared_ptr<map_t> map_;
 };
