@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
-
+#include <stdlib.h>
 #include "../third_party/json.hpp"
 
 struct cords_t
@@ -23,14 +23,34 @@ public:
     int r_, g_, b_, a_;
 };
 
+
+
+enum CELL{
+    ALIVE,
+    DEAD
+};
+enum ENV{
+    FIRE,
+    WATER,
+    SAND
+};
+std::map<std::string,CELL> static cell_enum_map{
+    {"alive",CELL::ALIVE},
+    {"dead",CELL::DEAD}
+};
+std::map<std::string,ENV> static env_enum_map{
+    {"fire",ENV::FIRE},
+    {"sand",ENV::SAND},
+    {"water",ENV::WATER}
+};
+
 class config_t
 {
 public:
     int height_, width_, cell_size_, map_size_;
-    std::map<int, color_t> state_map_;
-    std::map<int, color_t> env_map_;
+    std::map<CELL, color_t> state_map_;
+    std::map<ENV, color_t> env_map_;
 };
-
 class utills
 {
 public:
@@ -48,23 +68,23 @@ public:
             config->map_size_ = config_json["map_size"];
 
             printf("config: %d  %d %d %d",config->height_,config->width_,config->cell_size_,config->map_size_);
-
-            for (unsigned i = 0; i < config_json["state_map"].size(); i++)
+            for (auto& el : config_json["state_map"].items())
             {
-                config->state_map_.emplace(i, color_t(
-                                                  config_json["state_map"].at(i)["r"],
-                                                  config_json["state_map"].at(i)["g"],
-                                                  config_json["state_map"].at(i)["b"],
-                                                  config_json["state_map"].at(i)["a"]));
+                config->state_map_.emplace(cell_enum_map.at(el.key().c_str()), color_t(
+                                                  el.value()["r"],
+                                                  el.value()["g"],
+                                                  el.value()["b"],
+                                                  el.value()["a"]));
             }
 
-            for (unsigned i = 0; i < config_json.at("env_map").size(); i++)
+            for (auto& el : config_json["env_map"].items())
             {
-                config->env_map_.emplace(i, color_t(
-                                                config_json["env_map"].at(i)["r"],
-                                                config_json["env_map"].at(i)["g"],
-                                                config_json["env_map"].at(i)["b"],
-                                                config_json["env_map"].at(i)["a"]));
+                config->env_map_.emplace(env_enum_map.at(el.key().c_str()), color_t(
+                                                  el.value()["r"],
+                                                  el.value()["g"],
+                                                  el.value()["b"],
+                                                  el.value()["a"]));
+            
             }
 
             return std::shared_ptr<config_t>(config);

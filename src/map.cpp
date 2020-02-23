@@ -26,7 +26,7 @@ void map_t::render_map_f(SDL_Renderer *renderer)
     render_cells_f(renderer);
 };
 
-std::shared_ptr<std::map<cords_t, cell_t>>  map_t::generate_cells_f()
+std::shared_ptr<std::map<cords_t, cell_t>> map_t::generate_cells_f()
 {
     std::cout << "start generate cells" << std::endl;
     std::map<cords_t, cell_t> *cell_map = new std::map<cords_t, cell_t>();
@@ -37,11 +37,17 @@ std::shared_ptr<std::map<cords_t, cell_t>>  map_t::generate_cells_f()
         for (unsigned int y = 0; y < cells_height_n; y++)
         {
             cords_t cords(x, y);
-            cell_map->emplace(cords, cell_t(config_, cords));
+            cell_t cell(config_, cords);
+            if (x % 4 == 0)
+            {
+                cell.state_ = CELL::DEAD;
+                cell.next_state_ = CELL::DEAD;
+            }
+            cell_map->emplace(cords, cell);
         }
     }
 
-    return std::shared_ptr<std::map<cords_t, cell_t>> (cell_map);
+    return std::shared_ptr<std::map<cords_t, cell_t>>(cell_map);
 };
 
 std::shared_ptr<std::map<cords_t, environment_t>> map_t::generate_env_f()
@@ -58,14 +64,14 @@ std::shared_ptr<std::map<cords_t, environment_t>> map_t::generate_env_f()
         {
             cords_t cords(x, y);
             environment_t env(config_, cords);
-            if(x%5 == 0)
-            {
-                env.state_ = 1; //FIRE
-            }
-            else
-            {
-                env.state_ = 0; //WATER
-            }
+            // if(x%5 == 0)
+            // {
+            //     env.state_ = ENV::FIRE; //FIRE
+            // }
+            // else
+            // {
+            //     env.state_ = ENV::WATER; //WATER
+            // }
             env_map->emplace(cords, env);
         }
     }
@@ -113,7 +119,7 @@ void map_t::calculate_cells_f()
             cell_map_->at(cords_t(x, y)).calculate_cell_f(this);
         }
     }
-        for (unsigned int x = 0; x < cells_width_n; x++)
+    for (unsigned int x = 0; x < cells_width_n; x++)
     {
         for (unsigned int y = 0; y < cells_height_n; y++)
         {

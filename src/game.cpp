@@ -12,7 +12,7 @@ void game_t::init_game_f()
 {
     std::cout << "start init game" << std::endl;
     hardware_ = create_hardware_f();
-    printf("config: %d  %d %d %d",config_->height_,config_->width_,config_->cell_size_,config_->map_size_);
+    printf("config: %d  %d %d %d", config_->height_, config_->width_, config_->cell_size_, config_->map_size_);
 
     world_ = world_t(config_);
     world_.create_map_f();
@@ -25,8 +25,8 @@ void game_t::start_game_f()
     int frameTime;
     const int FPS = 15;
     const int frameDelay = 1000 / FPS;
-    long int time = 0;
-    for (bool game_active = true; game_active;)
+    long int time = 1;
+    for (bool game_active = true; game_active; time++)
     {
         frameStart = SDL_GetTicks();
         SDL_Event event;
@@ -45,8 +45,11 @@ void game_t::start_game_f()
             game_active = false;
         }
 
-        world_.calculate_cells_f();
         world_.render_map_f(hardware_->renderer);
+        if (time % 10 == 0)
+        {
+            world_.calculate_cells_f();
+        }
 
         frameTime = SDL_GetTicks() - frameStart;
 
