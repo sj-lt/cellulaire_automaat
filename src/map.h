@@ -19,12 +19,12 @@ public:
     void calculate_cells_f();
     void print_config_f();
 
-    std::unique_ptr<std::map<cords_t, environment_t>> env_map_;
-    std::unique_ptr<std::map<cords_t, cell_t>> cell_map_;
+    std::shared_ptr<std::map<cords_t, environment_t>> env_map_;
+    std::shared_ptr<std::map<cords_t, cell_t>>  cell_map_;
 
 private:
-    std::unique_ptr<std::map<cords_t, environment_t>> generate_env_f();
-    std::unique_ptr<std::map<cords_t, cell_t>> generate_cells_f();
+    std::shared_ptr<std::map<cords_t, environment_t>> generate_env_f();
+    std::shared_ptr<std::map<cords_t, cell_t>>  generate_cells_f();
 
     void render_env_f(SDL_Renderer *renderer);
     void render_cells_f(SDL_Renderer *renderer);

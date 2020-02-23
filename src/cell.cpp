@@ -16,19 +16,26 @@ void cell_t::draw_f(SDL_Renderer *renderer)
 };
 void cell_t::calculate_cell_f(const map_t *map)
 {
-//REMOVE FROM MOVES INCORRECT ONES;
-std::vector<std::pair<int,int>> possible_moves = pick_possible_moves_f(map); //TODO pass as pointer
-
+    //REMOVE FROM MOVES INCORRECT ONES;
+    std::vector<std::pair<int, int>> possible_moves = pick_possible_moves_f(map); //TODO pass as pointer
+    printf("moves %d",possible_moves.size());
+    // // IF NEIGHTBOURS ARE FIRE DIE  //TODO MAKE WITH COUNT NEIGHBOURS WITH TEMPLATES
+    // if (map->env_map_->at(cordinates_).state_ == 1 || map->env_map_->at(cords_t(cordinates_, 1, 0)).state_ == 1 || map->env_map_->at(cords_t(cordinates_, -1, 0)).state_ == 1 || map->env_map_->at(cords_t(cordinates_, 0, 1)).state_ == 1 || map->env_map_->at(cords_t(cordinates_, 0, -1)).state_ == 1)
+    // {
+    //     next_state_ = 1;
+    // }
     // IF NEIGHTBOURS ARE FIRE DIE  //TODO MAKE WITH COUNT NEIGHBOURS WITH TEMPLATES
-    if (map->env_map_->at(cordinates_).state_ == 1 || map->env_map_->at(cords_t(cordinates_, 1, 0)).state_ == 1 || map->env_map_->at(cords_t(cordinates_, -1, 0)).state_ == 1 || map->env_map_->at(cords_t(cordinates_, 0, 1)).state_ == 1 || map->env_map_->at(cords_t(cordinates_, 0, -1)).state_ == 1)
+    if (count_neighbours_t_f(map->env_map_,1,possible_moves)>1)
     {
         next_state_ = 1;
     }
     // IF NEIGHTBOURS ARE WATER CREATE //TODO MAKE WITH COUNT NEIGHBOURS WITH TEMPLATES
-    else if (map->env_map_->at(cordinates_).state_ == 0 || map->env_map_->at(cords_t(cordinates_, 1, 0)).state_ == 0 || map->env_map_->at(cords_t(cordinates_, -1, 0)).state_ == 0 || map->env_map_->at(cords_t(cordinates_, 0, 1)).state_ == 0 || map->env_map_->at(cords_t(cordinates_, 0, -1)).state_ == 0)
+    // else if (map->env_map_->at(cordinates_).state_ == 0 || map->env_map_->at(cords_t(cordinates_, 1, 0)).state_ == 0 || map->env_map_->at(cords_t(cordinates_, -1, 0)).state_ == 0 || map->env_map_->at(cords_t(cordinates_, 0, 1)).state_ == 0 || map->env_map_->at(cords_t(cordinates_, 0, -1)).state_ == 0)
+    // {
+    else if (count_neighbours_t_f(map->env_map_,0,possible_moves)>=1)
     {
 
-        if (count_neighbours_f(map, 0,possible_moves) > 3)
+        if (count_neighbours_f(map, 0, possible_moves) > 3)
         {
             next_state_ = 1;
         }
@@ -37,13 +44,14 @@ std::vector<std::pair<int,int>> possible_moves = pick_possible_moves_f(map); //T
             next_state_ = 0;
         }
     }
+    //TODO add if one cell naighbour then make alive if more than 3 die
 };
 void cell_t::next_day_f()
 {
     state_ = next_state_;
 };
 //TODO MAKE TEMPLATE FOR MAPS !!!!!!!
-int cell_t::count_neighbours_f(const map_t *map, int state_to_count,std::vector<std::pair<int,int>> moves)
+int cell_t::count_neighbours_f(const map_t *map, int state_to_count, std::vector<std::pair<int, int>> moves)
 {
     int counter = 0;
     for (unsigned int i = 0; i < moves.size(); i++)
@@ -55,11 +63,27 @@ int cell_t::count_neighbours_f(const map_t *map, int state_to_count,std::vector<
     }
     return counter;
 }
-std::vector<std::pair<int,int>> cell_t::pick_possible_moves_f(const map_t *map)
+//NEED TEST
+template <class map_T>
+int cell_t::count_neighbours_t_f(const map_T map, int state_to_count, std::vector<std::pair<int, int>> moves)
 {
-    std::vector<std::pair<int,int>> moves;
+    int counter = 0;
+    for (unsigned int i = 0; i < moves.size(); i++)
+    {
+        if (map-> at(cords_t(cordinates_, moves.at(i).first, moves.at(i).second)).state_ == state_to_count)
+        {
+            counter++;
+        }
+    }
+    return counter;
+}
+
+//TODO MAKE TEMPLATE FOR MAPS !!!!!!!
+std::vector<std::pair<int, int>> cell_t::pick_possible_moves_f(const map_t *map)
+{
+    std::vector<std::pair<int, int>> moves;
     for (unsigned int i = 0; i < moves_.size(); i++)
-    {   //find moves within the map
+    { //find moves within the map
         if (map->cell_map_->find(cords_t(cordinates_, moves_.at(i).first, moves_.at(i).second)) != map->cell_map_->end())
         {
             moves.push_back(moves_.at(i));
