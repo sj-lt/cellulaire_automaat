@@ -1,4 +1,5 @@
 #include "map.h"
+#include <random>
 
 map_t::map_t(std::shared_ptr<config_t> config)
 {
@@ -28,6 +29,12 @@ void map_t::render_map_f(SDL_Renderer *renderer)
 
 std::shared_ptr<std::map<cords_t, cell_t>> map_t::generate_cells_f()
 {
+    std::random_device rd;
+    std::mt19937 eng(1);
+    std::uniform_real_distribution<> distrReal(0, 1);
+
+
+
     std::cout << "start generate cells" << std::endl;
     std::map<cords_t, cell_t> *cell_map = new std::map<cords_t, cell_t>();
     unsigned int cells_width_n = (config_->width_ / config_->cell_size_);
@@ -38,7 +45,7 @@ std::shared_ptr<std::map<cords_t, cell_t>> map_t::generate_cells_f()
         {
             cords_t cords(x, y);
             cell_t cell(config_, cords);
-            if (x % 4 == 0)
+            if (distrReal(eng) > 0.2)
             {
                 cell.state_ = CELL::DEAD;
                 cell.next_state_ = CELL::DEAD;

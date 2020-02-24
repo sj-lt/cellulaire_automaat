@@ -37,14 +37,18 @@ void cell_t::calculate_cell_f(const map_t *map)
                                             //         next_state_ = CELL::ALIVE;
                                             //     }
                                             // }
-
-        if (count_neighbours_f(map->cell_map_, CELL::ALIVE, possible_moves) > 3)
+//CLASICAL GAME OF LIFE
+        if (count_neighbours_f(map->cell_map_, CELL::ALIVE, possible_moves) == 3)
         {
-            next_state_ = CELL::DEAD;
+            next_state_ = CELL::ALIVE;
+        }
+        else if ((count_neighbours_f(map->cell_map_, CELL::ALIVE, possible_moves) == 2) && (state_ == CELL::ALIVE))
+        {
+            next_state_ = CELL::ALIVE;
         }
         else
         {
-            next_state_ = CELL::ALIVE;
+            next_state_ = CELL::DEAD;
         }
 
     //TODO add if one cell naighbour then make alive if more than 3 die
