@@ -135,7 +135,3 @@ void map_t::calculate_cells_f()
     }
 };
 
-inline bool operator<(const cords_t &l, const cords_t &r)
-{
-    return (l.x_ < r.x_ || (l.x_ == r.x_ && l.y_ < r.y_));
-}
