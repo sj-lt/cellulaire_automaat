@@ -11,6 +11,7 @@ public:
     void render_map_f(SDL_Renderer *renderer);
     void create_map_f();
     void calculate_cells_f();
+    bool if_finish_f();
 
 private:
     std::shared_ptr<config_t> config_;

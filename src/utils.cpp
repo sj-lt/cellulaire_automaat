@@ -1,4 +1,4 @@
-#include "utills.h"
+#include "utils.h"
 color_t::color_t(int r, int g, int b, int a)
 {
     r_ = r;

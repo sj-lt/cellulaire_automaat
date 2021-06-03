@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
-#include "utills.h"
+#include "utils.h"
 
 
 

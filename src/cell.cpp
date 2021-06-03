@@ -2,8 +2,8 @@
 
 void cell_t::draw_f(SDL_Renderer *renderer)
 {
-    SDL_Rect rect = {((cordinates_.x_) * (config_->cell_size_)),
-                     ((cordinates_.y_) * (config_->cell_size_)),
+    SDL_Rect rect = {((coordinates_.x_) * (config_->cell_size_)),
+                     ((coordinates_.y_) * (config_->cell_size_)),
                      config_->cell_size_, config_->cell_size_};
 
     SDL_SetRenderDrawColor(renderer,
@@ -20,38 +20,19 @@ void cell_t::calculate_cell_f(const map_t *map)
     //REMOVE FROM MOVES INCORRECT ONES;
     std::vector<std::pair<int, int>> possible_moves = pick_possible_moves_f(map); //TODO pass as pointer
 
-                                            // if (count_neighbours_f(map->env_map_,ENV::FIRE,possible_moves)>=1)
-                                            // {
-                                            //     next_state_ = CELL::DEAD;;
-                                            // }
-
-                                            // else if (count_neighbours_f(map->env_map_,ENV::WATER,possible_moves)>=1)
-                                            // {
-
-                                            //     if (count_neighbours_f(map->cell_map_, CELL::ALIVE, possible_moves) > 3)
-                                            //     {
-                                            //         next_state_ = CELL::DEAD;
-                                            //     }
-                                            //     else
-                                            //     {
-                                            //         next_state_ = CELL::ALIVE;
-                                            //     }
-                                            // }
-//CLASICAL GAME OF LIFE
-        if (count_neighbours_f(map->cell_map_, CELL::ALIVE, possible_moves) == 3)
-        {
-            next_state_ = CELL::ALIVE;
-        }
-        else if ((count_neighbours_f(map->cell_map_, CELL::ALIVE, possible_moves) == 2) && (state_ == CELL::ALIVE))
-        {
-            next_state_ = CELL::ALIVE;
-        }
-        else
-        {
-            next_state_ = CELL::DEAD;
-        }
-
-    //TODO add if one cell naighbour then make alive if more than 3 die
+    int dead_neighbors = count_neighbour_f(map->cell_map_, CELL::DEAD, possible_moves);
+    int alive_neighbors = count_neighbour_f(map->cell_map_, CELL::ALIVE, possible_moves);
+    if(state_ == CELL::DEAD && alive_neighbors == 3)
+    {
+        next_state_ = CELL::ALIVE;
+        return;
+    }
+    if(state_ == CELL::ALIVE && (alive_neighbors == 2 || alive_neighbors == 3))
+    {
+        next_state_ = CELL::ALIVE;
+        return;
+    }
+    next_state_ = CELL::DEAD;
 };
 
 void cell_t::next_day_f()
@@ -59,13 +40,13 @@ void cell_t::next_day_f()
     state_ = next_state_;
 };
 
-template <class map_T,class enum_T>
-int cell_t::count_neighbours_f(const map_T map, enum_T state_to_count, std::vector<std::pair<int, int>> moves)
+template <class map_T, class enum_T>
+int cell_t::count_neighbour_f(const map_T map, enum_T state_to_count, std::vector<std::pair<int, int>> moves)
 {
     int counter = 0;
     for (unsigned int i = 0; i < moves.size(); i++)
     {
-        if (map-> at(cords_t(cordinates_, moves.at(i).first, moves.at(i).second)).state_ == state_to_count)
+        if (map->at(cords_t(coordinates_, moves.at(i).first, moves.at(i).second)).state_ == state_to_count)
         {
             counter++;
         }
@@ -79,11 +60,11 @@ std::vector<std::pair<int, int>> cell_t::pick_possible_moves_f(const map_t *map)
     std::vector<std::pair<int, int>> moves;
     for (unsigned int i = 0; i < moves_.size(); i++)
     { //IF MOVE WITHIN MAP
-        if (map->cell_map_->find(cords_t(cordinates_, moves_.at(i).first, moves_.at(i).second)) != map->cell_map_->end())
+        if (map->cell_map_->find(cords_t(coordinates_, moves_.at(i).first, moves_.at(i).second)) != map->cell_map_->end())
         {
             moves.push_back(moves_.at(i));
         }
     }
     return moves;
 }
-cell_t::cell_t(std::shared_ptr<config_t> config, cords_t cordinates) : render_object_t(config, cordinates) {}
+cell_t::cell_t(std::shared_ptr<config_t> config, cords_t coordinates) : render_object_t(config, coordinates) {}

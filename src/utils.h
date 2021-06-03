@@ -48,10 +48,12 @@ class config_t
 {
 public:
     int height_, width_, cell_size_, map_size_;
+    bool load_map_from_file;
+    std::string map_file_path;
     std::map<CELL, color_t> state_map_;
     std::map<ENV, color_t> env_map_;
 };
-class utills
+class utils
 {
 public:
     std::shared_ptr<config_t> static load_config_f(std::string path)
@@ -59,9 +61,12 @@ public:
         nlohmann::json config_json;
         std::ifstream is(path); // open file
         config_json = nlohmann::json::parse(is);
+        is.close();
         if (verify_config_f(config_json))
         {
             config_t *config = new config_t;
+            config->map_file_path = config_json["map_file_path"];
+            config->load_map_from_file = config_json["load_map_from_file"];
             config->height_ = config_json["height"];
             config->width_ = config_json["width"];
             config->cell_size_ = config_json["cell_size"];

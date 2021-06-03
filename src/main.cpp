@@ -16,19 +16,22 @@ int main(int argc, char **argv)
     //Read config
     if (argc > 1)
     {
-        config = utills::load_config_f(argv[1]);
+        config = utils::load_config_f(argv[1]);
     }
     else
     {
-        return -1; // try to load default config 
+        return -1; // try to load default config
     }
-    if(config == nullptr)
+    if (config == nullptr)
     {
         return -1;
     }
 
     game_t game(config);
     game.init_game_f();
+
+    game.init_map_f();
     game.start_game_f();
+
     return 0;
 }

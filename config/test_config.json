@@ -1,8 +1,10 @@
 {
-    "height": 600,
-    "width": 800,
+    "height": 1000,
+    "width": 1800,
     "cell_size" : 10,
     "map_size" : 10,
+    "map_file_path" : "data/map.txt",
+    "load_map_from_file" : false,
     "state_map" : {
         "alive" : {"r":0,"g":255,"b":0,"a":255},
         "dead" : {"r":0,"g":0,"b":0,"a":255}},

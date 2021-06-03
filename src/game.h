@@ -11,6 +11,7 @@ public:
     game_t(std::shared_ptr<config_t> config);
     game_t();
     void init_game_f();
+    void init_map_f();
     void start_game_f();
 private:
     world_t create_world_f();
